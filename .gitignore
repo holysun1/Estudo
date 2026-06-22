@@ -1,0 +1,19 @@
+# Pastas de build de todos os exercícios
+**/target/
+**/build/
+**/.gradle/
+
+# Configurações do IntelliJ
+.idea/
+*.iml
+**/.idea/
+**/*.iml
+
+# Arquivos do sistema
+.DS_Store
+Thumbs.db
+
+# Opcional: Arquivos do wrapper do Maven (se você não quiser no GitHub)
+**/.mvn/
+**/mvnw
+**/mvnw.cmd
