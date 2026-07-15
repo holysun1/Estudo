@@ -21,7 +21,7 @@ public class Main{
 
                                 System.out.println("\n--- LISTA DE CLIENTES NO BANCO ---");
 
-                // 2. Vamos fazer o mesmo 'SELECT * FROM cliente' que está na linha 15 da sua imagem
+                // 2. Vamos fazer o mesmo 'SELECT * FROM cliente' que esta na linha 15 da sua imagem
                 String sqlSelecionar = "SELECT id, nome, idade, rg FROM cliente";
                 ResultSet rs = stmt.executeQuery(sqlSelecionar);
 
