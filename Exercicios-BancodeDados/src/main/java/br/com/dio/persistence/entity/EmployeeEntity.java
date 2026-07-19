@@ -14,8 +14,8 @@ public class EmployeeEntity {
 
     private long id;
     private String name;
-    private OffsetDateTime birthday;
     private BigDecimal salary;
+    private OffsetDateTime birthday;
 
     @Override
     public String toString() {

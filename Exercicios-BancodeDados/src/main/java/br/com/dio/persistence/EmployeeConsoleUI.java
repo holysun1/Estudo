@@ -13,6 +13,8 @@ public class EmployeeConsoleUI {
     private final Scanner scanner = new Scanner(System.in);
     public void exibirMenuUpdate(){
         System.out.println("\n---Menu Update---\n");
+        List<EmployeeEntity> funcionarios = employeeService.findAll();
+        funcionarios.forEach(System.out::println);
         System.out.println("---Qual o ID do funcionario que deseja Atualizar?\n");
         long id = scanner.nextLong();
         scanner.nextLine(); //limpeza de buffer do teclado
@@ -96,9 +98,9 @@ public class EmployeeConsoleUI {
 
     public void exibirDeleteMenu(){
         System.out.println("\n---Menu Delete---\n");
-        System.out.println("Digite o numero do ID que sera deletado.\n" );
         List<EmployeeEntity> funcionarios = employeeService.findAll();
         funcionarios.forEach(System.out::println);
+        System.out.println("Digite o numero do ID que sera deletado.\n" );
         long id = scanner.nextLong();
         scanner.nextLine();
         Optional<EmployeeEntity> employeeOptional = employeeService.findById(id);
