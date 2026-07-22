@@ -1,12 +1,17 @@
 package br.com.dio.persistence;
 
+import br.com.dio.persistence.entity.EmployeeAuditEntity;
 import br.com.dio.persistence.entity.EmployeeEntity;
+import br.com.dio.persistence.entity.OperationEnum;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
+
+import static br.com.dio.persistence.entity.OperationEnum.*;
+
 
 public class EmployeeConsoleUI {
     private final EmployeeService employeeService = new EmployeeService();
@@ -95,6 +100,43 @@ public class EmployeeConsoleUI {
         }
 
     }
+
+    public void exibirMenuAudit() {
+        try {
+            System.out.println("===================================================================================\n");
+            System.out.println("---Menu Audit---");
+            // CRIAÇÃO DE LISTA AUDITORIA COM O METODO FINDALL DA CLASSE SERVICE
+            List<EmployeeAuditEntity> auditoria = employeeService.findAllAudit();
+            if (auditoria.isEmpty()) {
+                System.out.println("Nenhum registro encontrado.");
+            } else {
+                // METODO DE REPETICAO (FOR-EACH)
+                for (EmployeeAuditEntity log : auditoria) {
+                    //OBTEM O ENUM DE OPERACAO DO REGISTRO ATUAL
+                    OperationEnum operation = log.operation();
+                    // STRING ICON VARIA CONFORME O DADO INFORMADO NA LISTA AUDITORIA (SWITCH - CASE)
+                    switch (operation) {
+                        // FORMATAÇÃO DE IMPRESSÃO DE DADOS NA INTERFACE
+                        case INSERT ->
+                                System.out.printf("[CADASTRO] ID: %d |  Nome: %s | Salario: R$ %.2f%n",
+                                        log.employeeId(), log.name(), log.salary());
+                        case UPDATE ->
+                                System.out.printf("[ATUALIZACAO] ID: %d | Antigo Nome: %s ->  Nome: %s | Antigo Salario: R$ %.2f -> Salario: R$ %.2f%n",
+                                        log.employeeId(), log.oldName(),log.name(), log.oldSalary(), log.salary());
+                        case DELETE ->
+                                System.out.printf("[EXCLUSAO] ID: %d |  Nome: %s | Salario: R$ %.2f%n",
+                                        log.employeeId(), log.name(), log.salary());
+                    }
+                }}
+
+                System.out.println("\n===================================================================================\n");
+
+            }catch(Exception e){
+                System.out.println("\nErro ao carregar histórico." + e.getMessage());
+                System.out.println("\n===================================================================================\n");
+            }
+        }
+
 
     public void exibirDeleteMenu(){
         System.out.println("\n---Menu Delete---\n");

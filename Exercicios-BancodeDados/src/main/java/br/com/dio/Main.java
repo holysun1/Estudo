@@ -1,5 +1,6 @@
 package br.com.dio;
 import br.com.dio.persistence.ConnectionUtil;
+import br.com.dio.persistence.EmployeeAuditDAO;
 import br.com.dio.persistence.EmployeeConsoleUI;
 import br.com.dio.persistence.EmployeeDAO;
 import org.flywaydb.core.Flyway;
@@ -11,6 +12,7 @@ import java.util.Scanner;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     private final static EmployeeDAO employeeDAO = new EmployeeDAO();
+    private final static EmployeeAuditDAO employeeAuditDAO = new EmployeeAuditDAO();
     public static void main(String[] args) {
 // 🟢 Silencia logs informativos do Flyway (só mostra se for WARNING ou SEVERE)
 //    java.util.logging.Logger.getLogger("org.flywaydb").setLevel(java.util.logging.Level.WARNING);
@@ -51,9 +53,9 @@ public class Main {
 
         EmployeeConsoleUI ui = new EmployeeConsoleUI();
         int opcao = 0;
-        while(opcao != 4) {
+        while(opcao != 5) {
         System.out.println("\n Digite o numero da opcao desejada: ");
-        System.out.println("\n1. Menu Insert\n2. Menu Update\n3. Menu Delete\n4. Sair \n");
+        System.out.println("\n1. Menu Insert\n2. Menu Update\n3. Menu Delete\n4. Menu Audit \n5. Sair\n");
             opcao = sc.nextInt();
             switch (opcao) {
                 case 1:
@@ -66,6 +68,8 @@ public class Main {
                     ui.exibirDeleteMenu();
                     break;
                 case 4:
+                    ui.exibirMenuAudit();
+                case 5:
                     break;
                 default:
                     System.out.println("Escolha uma opçcao valida.\n1. Menu Insert\n2. Menu Update");
@@ -73,7 +77,8 @@ public class Main {
         }
 
         System.out.println("\n===================================================================================\n");
-        employeeDAO.findAll().forEach(System.out::println);
+
 
     }
+
 }
