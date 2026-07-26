@@ -3,9 +3,17 @@ import br.com.dio.persistence.ConnectionUtil;
 import br.com.dio.persistence.EmployeeAuditDAO;
 import br.com.dio.persistence.EmployeeConsoleUI;
 import br.com.dio.persistence.EmployeeDAO;
+import br.com.dio.persistence.entity.EmployeeEntity;
 import org.flywaydb.core.Flyway;
+import net.datafaker.Faker;
 
+import java.math.BigDecimal;
+import java.time.LocalTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.util.Locale;
 import java.util.Scanner;
+import java.util.stream.Stream;
 
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -13,6 +21,7 @@ import java.util.Scanner;
 public class Main {
     private final static EmployeeDAO employeeDAO = new EmployeeDAO();
     private final static EmployeeAuditDAO employeeAuditDAO = new EmployeeAuditDAO();
+    private final static Faker faker = new Faker(Locale.of("pt","BR"));
     public static void main(String[] args) {
 // 🟢 Silencia logs informativos do Flyway (só mostra se for WARNING ou SEVERE)
 //    java.util.logging.Logger.getLogger("org.flywaydb").setLevel(java.util.logging.Level.WARNING);
@@ -35,6 +44,14 @@ public class Main {
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
+       var entities = Stream.generate(() -> {
+            var employee = new EmployeeEntity();
+            employee.setName(faker.name().fullName());
+            employee.setSalary(new BigDecimal(faker.number().digits(4)));
+            employee.setBirthday(OffsetDateTime.of(faker.date().birthdayLocalDate(18,50), LocalTime.MIN, ZoneOffset.UTC));
+            return employee;
+        }).limit(2500).toList();
+        employeeDAO.insertBatch(entities);
 
         // 3. Só agora abre a interface
 // ========================= LOGS DO FLYWAY APARECEM ANTES ====================
@@ -49,7 +66,10 @@ public class Main {
         //System.out.println("\n===================================================================================\n");
         //employeeDAO.delete(2);
         //employeeDAO.findAll().forEach(System.out::println);
+        int a = 12;
+        for (int i = 0 ; i <= a ; i++){
 
+        }
 
         EmployeeConsoleUI ui = new EmployeeConsoleUI();
         int opcao = 0;
