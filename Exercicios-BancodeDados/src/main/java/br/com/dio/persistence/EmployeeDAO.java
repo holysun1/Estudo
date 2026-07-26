@@ -3,7 +3,9 @@ import br.com.dio.persistence.entity.EmployeeEntity;
 import com.mysql.cj.jdbc.StatementImpl;
 import lombok.NonNull;
 
+import java.math.BigInteger;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,17 +13,19 @@ import java.util.Optional;
 
 public class EmployeeDAO {
         public void insert(final EmployeeEntity entity) {
-                String sql = "INSERT INTO employees(name , salary , birthday ) values ( ? , ? , ?)";
                 try (
                         var connection = ConnectionUtil.getConnection();
-                        var statement = connection.prepareStatement(sql);
+                        var statement = connection.prepareCall("{call prc_insert_employee(?,?,?,?)}")
                 ) {
                         statement.setString(1, entity.getName());
                         statement.setBigDecimal(2,entity.getSalary());
                         var birthday = entity.getBirthday();
+                        //tratamento de valores null , evita o NullPointerException
                         statement.setTimestamp(3, birthday != null ?
                                 java.sql.Timestamp.from(birthday.toInstant()) : null);
-                        statement.executeUpdate();
+                        statement.registerOutParameter(4, Types.BIGINT);
+                        statement.execute();
+                        entity.setId(statement.getLong(4));
                 } catch (SQLException | ClassNotFoundException ex) {
                         throw new RuntimeException(ex);
                 }
