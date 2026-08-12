@@ -1,4 +1,5 @@
 package br.com.dio.persistence;
+import br.com.dio.persistence.entity.ContactEntity;
 import br.com.dio.persistence.entity.EmployeeEntity;
 import lombok.NonNull;
 
@@ -111,7 +112,18 @@ public class EmployeeDAO {
         }
 
         public Optional<EmployeeEntity> findById(final long id) {
-                String sql = "SELECT * FROM employees INNER JOIN WHERE id = ? ";
+                String sql = """
+                        SELECT e.id employee_id,
+                        e.name,
+                        e.salary,
+                        e.birthday,
+                        c.id contact_id,
+                        c.description,
+                        c.type
+                        FROM employees e\s
+                        LEFT JOIN contacts c\s
+                        ON c.employee_id = e.id
+                        WHERE e.id = ?""";
                 try (
                         var connection = ConnectionUtil.getConnection();
                         //var statement = connection.createStatement(); ##REFATORAR
@@ -121,7 +133,7 @@ public class EmployeeDAO {
                         try (var resultSet = statement.executeQuery()) {
                                 if (resultSet.next()) {
                                         var entity = new EmployeeEntity();
-                                        entity.setId(resultSet.getLong("id"));
+                                        entity.setId(resultSet.getLong("employee_id"));
                                         entity.setName(resultSet.getString("name"));
                                         entity.setSalary(resultSet.getBigDecimal("salary"));
                                         var timestamp = resultSet.getTimestamp("birthday");
@@ -129,8 +141,18 @@ public class EmployeeDAO {
                                                 var birthday = timestamp.toInstant().atOffset(ZoneOffset.UTC);
                                                 entity.setBirthday(birthday);
                                         }
+                                        if (!resultSet.wasNull()) {
+                                                var contact = new ContactEntity();
+                                                contact.setId(resultSet.getLong("contact_id"));
+                                                contact.setDescription(resultSet.getString("description"));
+                                                contact.setType(resultSet.getString("type"));
+
+                                                entity.setContact(contact);
+                                        }
+
                                         return Optional.of(entity);
                                 }
+
                         }
                 } catch (SQLException | ClassNotFoundException ex) {
                         ex.printStackTrace();

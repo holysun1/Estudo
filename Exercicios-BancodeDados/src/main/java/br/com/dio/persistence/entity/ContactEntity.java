@@ -15,4 +15,5 @@ public class ContactEntity {
     private OffsetDateTime birthday;
     private Long employeeId;
 
+
 }

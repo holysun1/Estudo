@@ -16,6 +16,7 @@ public class EmployeeEntity {
     private String name;
     private BigDecimal salary;
     private OffsetDateTime birthday;
+    private ContactEntity contact;
 
     @Override
     public String toString() {
@@ -24,6 +25,7 @@ public class EmployeeEntity {
                 ", name= " + name +
                 ", birthday= " + formatOffsetDateTime(this.birthday) +
                 ", salary= " + salary +
+                ", contact" + contact +
                 '}';
     }
 

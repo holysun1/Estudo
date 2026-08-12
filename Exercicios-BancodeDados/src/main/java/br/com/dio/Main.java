@@ -75,6 +75,11 @@ public class Main {
         while(opcao != 5) {
         System.out.println("\n Digite o numero da opcao desejada: ");
         System.out.println("\n1. Menu Insert\n2. Menu Update\n3. Menu Delete\n4. Menu Audit \n5. Menu Descricao Contato\n 6. Sair\n");
+
+        //System.out.println(employeeDAO.findById(5));
+        //CORIIGIR O FINDBYID PARA MOSTRAR A DESCRIPTION
+            //adicionar no CONSOLEUI a busce pelo ID
+
             opcao = sc.nextInt();
             switch (opcao) {
                 case 1:
