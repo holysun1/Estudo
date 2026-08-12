@@ -1,8 +1,6 @@
 package br.com.dio;
-import br.com.dio.persistence.ConnectionUtil;
-import br.com.dio.persistence.EmployeeAuditDAO;
-import br.com.dio.persistence.EmployeeConsoleUI;
-import br.com.dio.persistence.EmployeeDAO;
+import br.com.dio.persistence.*;
+import br.com.dio.persistence.entity.ContactEntity;
 import br.com.dio.persistence.entity.EmployeeEntity;
 import org.flywaydb.core.Flyway;
 import net.datafaker.Faker;
@@ -22,6 +20,7 @@ public class Main {
     private final static EmployeeDAO employeeDAO = new EmployeeDAO();
     private final static EmployeeAuditDAO employeeAuditDAO = new EmployeeAuditDAO();
     private final static Faker faker = new Faker(Locale.of("pt","BR"));
+    private final static ContactDAO contactDao = new ContactDAO();
     public static void main(String[] args) {
 // 🟢 Silencia logs informativos do Flyway (só mostra se for WARNING ou SEVERE)
 //    java.util.logging.Logger.getLogger("org.flywaydb").setLevel(java.util.logging.Level.WARNING);
@@ -75,7 +74,7 @@ public class Main {
         int opcao = 0;
         while(opcao != 5) {
         System.out.println("\n Digite o numero da opcao desejada: ");
-        System.out.println("\n1. Menu Insert\n2. Menu Update\n3. Menu Delete\n4. Menu Audit \n5. Sair\n");
+        System.out.println("\n1. Menu Insert\n2. Menu Update\n3. Menu Delete\n4. Menu Audit \n5. Menu Descricao Contato\n 6. Sair\n");
             opcao = sc.nextInt();
             switch (opcao) {
                 case 1:
@@ -90,6 +89,8 @@ public class Main {
                 case 4:
                     ui.exibirMenuAudit();
                 case 5:
+                    ui.exibirMenuInsertDescriptionContact();
+                case 6:
                     break;
                 default:
                     System.out.println("Escolha uma opçcao valida.\n1. Menu Insert\n2. Menu Update");

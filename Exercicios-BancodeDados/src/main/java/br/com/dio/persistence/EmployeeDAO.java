@@ -111,7 +111,7 @@ public class EmployeeDAO {
         }
 
         public Optional<EmployeeEntity> findById(final long id) {
-                String sql = "SELECT * FROM employees WHERE id = ? ";
+                String sql = "SELECT * FROM employees INNER JOIN WHERE id = ? ";
                 try (
                         var connection = ConnectionUtil.getConnection();
                         //var statement = connection.createStatement(); ##REFATORAR

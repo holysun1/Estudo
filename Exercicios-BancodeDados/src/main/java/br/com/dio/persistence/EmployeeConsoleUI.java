@@ -1,5 +1,6 @@
 package br.com.dio.persistence;
 
+import br.com.dio.persistence.entity.ContactEntity;
 import br.com.dio.persistence.entity.EmployeeAuditEntity;
 import br.com.dio.persistence.entity.EmployeeEntity;
 import br.com.dio.persistence.entity.OperationEnum;
@@ -15,6 +16,7 @@ import static br.com.dio.persistence.entity.OperationEnum.*;
 
 public class EmployeeConsoleUI {
     private final EmployeeService employeeService = new EmployeeService();
+    private final ContactService contactService = new ContactService();
     private final Scanner scanner = new Scanner(System.in);
     public void exibirMenuUpdate(){
         System.out.println("\n---Menu Update---\n");
@@ -101,6 +103,39 @@ public class EmployeeConsoleUI {
 
     }
 
+    public void exibirMenuInsertDescriptionContact(){
+        ContactEntity newContact = new ContactEntity();
+        System.out.println("\n---Menu Cadastro de Descrição de Contato--\n");
+        System.out.println("Digite uma nova Descrição");
+        String description = scanner.nextLine();
+        newContact.setDescription(description);
+        System.out.println("Digite o ID do Funcionário para vincular o contato:");
+        Long employeeId = Long.parseLong(scanner.nextLine());
+        newContact.setEmployeeId(employeeId);
+        try{
+            contactService.insert(newContact);
+            System.out.printf("Adicionando....%n Descricao:%s",
+                    newContact.getDescription());
+            try{
+                Thread.sleep(1200);
+            System.out.println("\n Nova Descricao em Contato Atualizado com sucesso!\n");;
+                System.out.printf("Contato cadastrado! ID: %d | Descrição: %s | ID Funcionário: %d%n",
+                        newContact.getId(),
+                        newContact.getDescription(),
+                        newContact.getEmployeeId());
+            System.out.println("\n===================================================================================\n");
+
+            }catch(InterruptedException e){
+                Thread.currentThread().interrupt();
+                System.out.println("O processo de inserção foi interrompido.");
+            }
+        }catch(Exception e){
+            System.out.println("\nErro em atualizar a descrição." + e.getMessage());
+            System.out.println("\n===================================================================================\n");
+
+        }
+
+    }
     public void exibirMenuAudit() {
         try {
             System.out.println("===================================================================================\n");
