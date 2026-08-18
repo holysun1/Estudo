@@ -12,6 +12,9 @@ import java.util.List;
 import java.util.Optional;
 
 public class EmployeeDAO {
+
+        private final ContactDAO contactDAO = new ContactDAO();
+
         public void insert(final EmployeeEntity entity) {
                 try (
                         var connection = ConnectionUtil.getConnection();
@@ -103,6 +106,7 @@ public class EmployeeDAO {
                                         var birthday = timestamp.toInstant().atOffset(ZoneOffset.UTC);
                                         entity.setBirthday(birthday);
                                 }
+                                entity.setContacts(contactDAO.findbyEmployeeId(resultSet.getLong("id")));
                                 entities.add(entity);
                         }
                 } catch (SQLException | ClassNotFoundException ex) {
@@ -140,14 +144,6 @@ public class EmployeeDAO {
                                         if (timestamp != null) {
                                                 var birthday = timestamp.toInstant().atOffset(ZoneOffset.UTC);
                                                 entity.setBirthday(birthday);
-                                        }
-                                        if (!resultSet.wasNull()) {
-                                                var contact = new ContactEntity();
-                                                contact.setId(resultSet.getLong("contact_id"));
-                                                contact.setDescription(resultSet.getString("description"));
-                                                contact.setType(resultSet.getString("type"));
-
-                                                entity.setContact(contact);
                                         }
 
                                         return Optional.of(entity);

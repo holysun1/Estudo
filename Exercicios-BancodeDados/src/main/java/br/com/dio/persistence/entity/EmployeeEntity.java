@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 
 @Data //Gera GETTERS, SETTERS, TOSTRING, EQUALS E HASHCODE
@@ -16,7 +17,7 @@ public class EmployeeEntity {
     private String name;
     private BigDecimal salary;
     private OffsetDateTime birthday;
-    private ContactEntity contact;
+    private List<ContactEntity> contacts;
 
     @Override
     public String toString() {
@@ -24,9 +25,7 @@ public class EmployeeEntity {
                 "id= " + id +
                 ", name= " + name +
                 ", birthday= " + formatOffsetDateTime(this.birthday) +
-                ", salary= " + salary +
-                ", contact" + contact +
-                '}';
+                ", salary= " + salary ;
     }
 
     public String formatOffsetDateTime(final OffsetDateTime dateTime) {

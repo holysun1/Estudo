@@ -49,7 +49,7 @@ public class Main {
             employee.setSalary(new BigDecimal(faker.number().digits(4)));
             employee.setBirthday(OffsetDateTime.of(faker.date().birthdayLocalDate(18,50), LocalTime.MIN, ZoneOffset.UTC));
             return employee;
-        }).limit(2500).toList();
+        }).limit(100).toList();
         employeeDAO.insertBatch(entities);
 
         // 3. Só agora abre a interface
@@ -58,8 +58,6 @@ public class Main {
         System.out.println("\n--- Banco de dados inicializado ---");
         System.out.println("\n===================================================================================\n");
 
-// AULA BUSCANDO DADOS COM SELECT - MÓDULO 2 - MINUTO 8:38
-        employeeDAO.findAll().forEach(System.out::println);
         System.out.println("\n===================================================================================\n");
         //employeeDAO.findById(1).ifPresent(System.out::println);
         //System.out.println("\n===================================================================================\n");
@@ -74,10 +72,13 @@ public class Main {
         int opcao = 0;
         while(opcao != 5) {
         System.out.println("\n Digite o numero da opcao desejada: ");
-        System.out.println("\n1. Menu Insert\n2. Menu Update\n3. Menu Delete\n4. Menu Audit \n5. Menu Descricao Contato\n 6. Sair\n");
+        System.out.println("\n1. Menu Insert\n2. Menu Update\n3." +
+                "Menu Delete\n4. Menu Audit \n" +
+                "5. Menu Descricao Contato\n" +
+                "6. Menu Procurar Employee\n" +
+                "7.Sair\n");
 
-        //System.out.println(employeeDAO.findById(5));
-        //CORIIGIR O FINDBYID PARA MOSTRAR A DESCRIPTION
+        employeeDAO.findAll().forEach(System.out::println);
             //adicionar no CONSOLEUI a busce pelo ID
 
             opcao = sc.nextInt();
@@ -96,6 +97,8 @@ public class Main {
                 case 5:
                     ui.exibirMenuInsertDescriptionContact();
                 case 6:
+                    ui.exibirMenuFind();
+                case 7:
                     break;
                 default:
                     System.out.println("Escolha uma opçcao valida.\n1. Menu Insert\n2. Menu Update");

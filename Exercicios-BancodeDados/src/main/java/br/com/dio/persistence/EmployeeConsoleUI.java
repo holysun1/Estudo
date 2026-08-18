@@ -7,6 +7,7 @@ import br.com.dio.persistence.entity.OperationEnum;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
@@ -103,6 +104,29 @@ public class EmployeeConsoleUI {
 
     }
 
+    public void exibirMenuFind() {
+        System.out.println("\n---Menu Find ---\n");
+        System.out.println("Digite o ID do Usuario");
+        try {
+            long id = scanner.nextLong();
+            scanner.nextLine();//Quebra de linha
+            EmployeeEntity employee = employeeService.findById(id).orElse(null);
+            if (employee != null) {
+                System.out.println("Usuário encontrado:");
+                System.out.println(employee);
+            } else {
+                System.out.println("Nenhum usuário encontrado com o ID informado.");
+            }
+        } catch (InputMismatchException e) {
+            System.out.println("Erro: Digite apenas números inteiros para o ID.");
+            scanner.nextLine(); // Limpa o buffer em caso de entrada inválida
+        } catch (Exception e) {
+            System.out.println("Erro ao realizar a busca: " + e.getMessage());
+        }
+    }
+
+
+
     public void exibirMenuInsertDescriptionContact(){
         ContactEntity newContact = new ContactEntity();
         System.out.println("\n---Menu Cadastro de Descrição de Contato--\n");
@@ -136,6 +160,7 @@ public class EmployeeConsoleUI {
         }
 
     }
+
     public void exibirMenuAudit() {
         try {
             System.out.println("===================================================================================\n");

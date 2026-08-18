@@ -30,4 +30,30 @@ public class ContactDAO {
                 }
         }
 
+        public List<ContactEntity> findbyEmployeeId(final long employeeId) {
+                List<ContactEntity> entities = new ArrayList<>();
+                String sql = "SELECT *FROM contacts WHERE employee_id = ?";
+                try (
+                        var connection = ConnectionUtil.getConnection();
+                        //var statement = connection.createStatement(); ##REFATORAR
+                        var statement = connection.prepareStatement(sql)
+                        //var resultSet = statement.executeQuery(sql);
+                ) {
+                        statement.setLong(1, employeeId);
+                        try( var resultSet = statement.executeQuery() ) {
+                        while (resultSet.next()){
+                        var entity = new ContactEntity();
+                                entity.setId(resultSet.getLong("id"));
+                                entity.setDescription(resultSet.getString("description"));
+                                entity.setType(resultSet.getString("type"));
+                                entity.setEmployeeId(resultSet.getLong("employee_id"));
+                                entities.add(entity);
+                                }
+                        }
+                }catch(SQLException | ClassNotFoundException ex){
+                                ex.printStackTrace();
+                        }
+                        return entities;
+                }
+
 }
