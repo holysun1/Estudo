@@ -2,6 +2,7 @@ package br.com.dio;
 import br.com.dio.persistence.*;
 import br.com.dio.persistence.entity.ContactEntity;
 import br.com.dio.persistence.entity.EmployeeEntity;
+import br.com.dio.persistence.entity.ModuleEntity;
 import org.flywaydb.core.Flyway;
 import net.datafaker.Faker;
 
@@ -9,6 +10,7 @@ import java.math.BigDecimal;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
 import java.util.stream.Stream;
@@ -48,16 +50,22 @@ public class Main {
             employee.setName(faker.name().fullName());
             employee.setSalary(new BigDecimal(faker.number().digits(4)));
             employee.setBirthday(OffsetDateTime.of(faker.date().birthdayLocalDate(18,50), LocalTime.MIN, ZoneOffset.UTC));
+            employee.setModules(new ArrayList<>());
+            var moduleAmount = faker.number().numberBetween(1,4);
+            for (int i=0; i<moduleAmount; i++) {
+                var module = new ModuleEntity();
+                module.setId(i+1);
+                employee.getModules().add(module);
+            }
             return employee;
         }).limit(100).toList();
+        entities.forEach(employeeDAO::insert);
         employeeDAO.insertBatch(entities);
 
         // 3. Só agora abre a interface
 // ========================= LOGS DO FLYWAY APARECEM ANTES ====================
         Scanner sc = new Scanner(System.in);
         System.out.println("\n--- Banco de dados inicializado ---");
-        System.out.println("\n===================================================================================\n");
-
         System.out.println("\n===================================================================================\n");
         //employeeDAO.findById(1).ifPresent(System.out::println);
         //System.out.println("\n===================================================================================\n");
@@ -72,8 +80,8 @@ public class Main {
         int opcao = 0;
         while(opcao != 5) {
         System.out.println("\n Digite o numero da opcao desejada: ");
-        System.out.println("\n1. Menu Insert\n2. Menu Update\n3." +
-                "Menu Delete\n4. Menu Audit \n" +
+        System.out.println("\n1. Menu Insert\n2. Menu Update\n" +
+                "\n3. Menu Delete\n4. Menu Audit \n" +
                 "5. Menu Descricao Contato\n" +
                 "6. Menu Procurar Employee\n" +
                 "7.Sair\n");

@@ -18,6 +18,7 @@ public class EmployeeEntity {
     private BigDecimal salary;
     private OffsetDateTime birthday;
     private List<ContactEntity> contacts;
+    private List<ModuleEntity> modules;
 
     @Override
     public String toString() {

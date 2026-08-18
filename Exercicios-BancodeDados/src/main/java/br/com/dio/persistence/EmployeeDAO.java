@@ -1,6 +1,7 @@
 package br.com.dio.persistence;
-import br.com.dio.persistence.entity.ContactEntity;
+import br.com.dio.persistence.entity.ModuleEntity;
 import br.com.dio.persistence.entity.EmployeeEntity;
+import com.mysql.cj.jdbc.StatementImpl;
 import lombok.NonNull;
 
 import java.sql.SQLException;
@@ -14,6 +15,7 @@ import java.util.Optional;
 public class EmployeeDAO {
 
         private final ContactDAO contactDAO = new ContactDAO();
+        private final AccessDAO accessDAO = new AccessDAO();
 
         public void insert(final EmployeeEntity entity) {
                 try (
@@ -28,7 +30,14 @@ public class EmployeeDAO {
                                 java.sql.Timestamp.from(birthday.toInstant()) : null);
                         statement.registerOutParameter(4, Types.BIGINT);
                         statement.execute();
-                        entity.setId(statement.getLong(4));
+                        //RECUPERAR O ID gerado pelo parametro OUT da procedure
+                        long generatedID = statement.getLong(4);
+                        entity.setId(generatedID);
+                        if(entity.getModules() != null) {
+                                entity.getModules().stream()
+                                        .map(ModuleEntity::getId)
+                                        .forEach(moduleId -> accessDAO.insert(entity.getId(), moduleId));
+                        }
                 } catch (SQLException | ClassNotFoundException ex) {
                         throw new RuntimeException(ex);
                 }
