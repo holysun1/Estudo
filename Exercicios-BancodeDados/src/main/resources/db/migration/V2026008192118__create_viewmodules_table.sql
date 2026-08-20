@@ -1,4 +1,4 @@
-CREATE OR REPLACE VIEW modules_table AS
+CREATE OR REPLACE VIEW modules_view AS
 SELECT
     m.id AS module_id,
     m.name AS module_name,
