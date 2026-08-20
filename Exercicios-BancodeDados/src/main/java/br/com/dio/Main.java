@@ -23,6 +23,7 @@ public class Main {
     private final static EmployeeAuditDAO employeeAuditDAO = new EmployeeAuditDAO();
     private final static Faker faker = new Faker(Locale.of("pt","BR"));
     private final static ContactDAO contactDao = new ContactDAO();
+    private final static ModuleDAO moduleDAO = new ModuleDAO();
     public static void main(String[] args) {
 // 🟢 Silencia logs informativos do Flyway (só mostra se for WARNING ou SEVERE)
 //    java.util.logging.Logger.getLogger("org.flywaydb").setLevel(java.util.logging.Level.WARNING);
@@ -58,7 +59,7 @@ public class Main {
                 employee.getModules().add(module);
             }
             return employee;
-        }).limit(100).toList();
+        }).limit(50).toList();
         entities.forEach(employeeDAO::insert);
         employeeDAO.insertBatch(entities);
 
@@ -80,13 +81,17 @@ public class Main {
         int opcao = 0;
         while(opcao != 5) {
         System.out.println("\n Digite o numero da opcao desejada: ");
-        System.out.println("\n1. Menu Insert\n2. Menu Update\n" +
-                "\n3. Menu Delete\n4. Menu Audit \n" +
-                "5. Menu Descricao Contato\n" +
-                "6. Menu Procurar Employee\n" +
-                "7.Sair\n");
+        System.out.println("\n1. Menu Insert"+ "\n2. Menu Update" +
+                "\n3. Menu Delete" + "\n4. Menu Audit" +
+                "\n5. Menu Descricao Contato" +
+                "\n6. Menu Procurar Employee" +
+                "\n7. Sair\n");
 
         employeeDAO.findAll().forEach(System.out::println);
+        System.out.println("\n===================================================================================\n");
+        System.out.println("\n===================================================================================\n");
+        System.out.println("\n===================================================================================\n");
+        moduleDAO.findAll().forEach(System.out::println);
             //adicionar no CONSOLEUI a busce pelo ID
 
             opcao = sc.nextInt();

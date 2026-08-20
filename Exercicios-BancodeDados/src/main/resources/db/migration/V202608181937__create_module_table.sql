@@ -1,5 +1,11 @@
-CREATE TABLE modules(
-      id BIGINT not null auto_increment,
-      name VARCHAR (150) not null,
-      PRIMARY KEY (id)
-)engine=InnoDB default charset=utf8;
+-- 1. Cria a estrutura da tabela
+CREATE TABLE modules (
+     id BIGINT NOT NULL AUTO_INCREMENT,
+     name VARCHAR(150) NOT NULL,
+     PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO modules (name) VALUES
+                               ('financeiro'),
+                               ('controle de ponto'),
+                               ('Estoque');
