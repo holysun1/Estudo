@@ -6,8 +6,6 @@ public interface ClientService {
     Iterable<Cliente> findAll();
     Cliente findById(long id);
     void insert(Cliente cliente);
-    void update(Cliente cliente);
-    void delete(Cliente cliente);
 
     void update(Long id, Cliente cliente);
 
