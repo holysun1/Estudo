@@ -1,0 +1,8 @@
+package dio.taskmanager.application.Input;
+
+import java.util.Optional;
+
+public record UpdateTaskInput(Optional<String> title, Optional<String> description, Optional<String> status){
+
+
+}

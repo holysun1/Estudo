@@ -1,5 +1,6 @@
 package dio.taskmanager.domain;
 
+import dio.taskmanager.application.Ouput.TaskOutput;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.util.Assert;
@@ -19,6 +20,12 @@ public class Task {
         this.title = title;
         this.description = description;
         this.status = TaskStatus.PENDING;
+    }
+
+    public void update(Optional<String> title, Optional<String> description, Optional<TaskStatus> status){
+        title.ifPresent(this::setTitle);
+        description.ifPresent(d -> this.setDescription(Optional.of(d)));
+        status.ifPresent(this::setStatus);
     }
 
 }
