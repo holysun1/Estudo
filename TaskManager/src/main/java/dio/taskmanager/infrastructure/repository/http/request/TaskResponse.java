@@ -1,0 +1,14 @@
+package dio.taskmanager.infrastructure.repository.http.request;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import dio.taskmanager.application.Ouput.TaskOutput;
+
+@JsonInclude(JsonInclude.Include.NON_ABSENT)
+public record TaskResponse(String id, String title, String description,String status) {
+    public static TaskResponse from(TaskOutput output){
+        return new TaskResponse((output.id()),
+                output.title(),
+                output.description().orElse(null),
+                output.status());
+    }
+}
