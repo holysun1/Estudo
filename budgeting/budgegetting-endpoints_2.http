@@ -1,0 +1,11 @@
+POST http://localhost:8080/transactions/ai HTTP/1.1
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="padaria.m4a"
+
+< ./src/test/resources/audio/padaria.m4a
+
+--boundary
+<> 2026-08-23T2101.200.txt
+###

@@ -1,0 +1,11 @@
+POST http://localhost:8080/transactions/ai HTTP/1.1
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="cinema.m4a"
+
+< ./src/test/resources/audio/cinema.m4a
+
+--boundary
+<> 2026-08-23T2100.200.txt
+###
